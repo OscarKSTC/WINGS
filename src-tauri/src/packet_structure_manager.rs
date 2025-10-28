@@ -179,6 +179,11 @@ impl PacketStructureManager {
         &mut self,
         packet_structure: &mut PacketStructure,
     ) -> Result<usize, Error> {
+        
+        if let Some(existing_id) = self.name_to_id.get(&packet_structure.name) {
+            return Ok(*existing_id);
+        }
+
         let mut next_packet_id = LOWEST_ID;
         for registered_packet_structure in self.packet_structures.iter() {
             if registered_packet_structure.name == packet_structure.name {
